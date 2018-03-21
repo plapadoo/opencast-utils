@@ -4,7 +4,7 @@
 # (using git status to check dirtyness) and put them to
 # build/.../system
 
-set -e
+set -eu
 
 if [ ! -f "pom.xml" ]; then
     echo "pom.xml not found in current working directory"
@@ -19,7 +19,7 @@ fi
 
 echo "determining OC version..."
 echo "(this might take a while on first launch)"
-version="$(mvn -q     -Dexec.executable="echo"     -Dexec.args='${project.version}'     --non-recursive     org.codehaus.mojo:exec-maven-plugin:1.3.1:exec)"
+version="$(mvn -q -Dexec.executable="echo" -Dexec.args="${project.version}" --non-recursive org.codehaus.mojo:exec-maven-plugin:1.3.1:exec)"
 echo "OC version is: $version"
 
 modules=$(git status --porcelain | sed -e 's/.*modules/modules/' -e 's/modules\/\([^/]*\)\/.*/modules\/\1/' | sort -u | paste -s -d, -)
