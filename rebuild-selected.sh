@@ -22,14 +22,18 @@ echo "(this might take a while on first launch)"
 version="$(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.3.1:exec)"
 echo "OC version is: $version"
 
-modules=$(git status --porcelain | sed -e 's/...modules/modules/' -e 's/modules\/\([^/]*\)\/.*/modules\/\1/' | sort -u | paste -s -d, -)
+relative="$1"
+shift
+
+modules=$(git diff --name-only "$relative" | sed -e '/^etc/d' -e '/^docs/d' -e 's/modules\/\([^/]*\)\/.*/modules\/\1/' | sort -u | paste -s -d, -)
 
 echo "rebuilding $modules via maven"
-mvn install -pl "$modules" "$@"
+echo mvn install -pl "$modules" "$@"
+exit 0
 
 echo "installing"
 
-git status --porcelain | sed -e 's/...modules/modules/' -e 's/modules\/\([^/]*\)\/.*/\1/' | sort -u | while read -r line; do
+git diff "$relative" --name-only | sed -e '/^etc/d' -e '/^docs/d' -e 's/modules\/\([^/]*\)\/.*/\1/' | sort -u | while read -r line; do
     echo "installing $line"
     oc_path="org/opencastproject/opencast-$line/$version/opencast-$line-$version.jar"
     from_path="$HOME/.m2/repository/$oc_path"
