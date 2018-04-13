@@ -25,14 +25,14 @@ echo "OC version is: $version"
 relative="$1"
 shift
 
-modules=$(git diff --name-only "$relative" | sed -e '/^etc/d' -e '/^docs/d' -e 's/modules\/\([^/]*\)\/.*/modules\/\1/' | sort -u | paste -s -d, -)
+modules=$(git diff --name-only "$relative" | sed -e '/^pom.xml/d' -e '/^etc/d' -e '/^docs/d' -e 's/modules\/\([^/]*\)\/.*/modules\/\1/' | sort -u | paste -s -d, -)
 
 echo "rebuilding $modules via maven"
 mvn install -pl "$modules" "$@"
 
 echo "installing"
 
-git diff "$relative" --name-only | sed -e '/^etc/d' -e '/^docs/d' -e 's/modules\/\([^/]*\)\/.*/\1/' | sort -u | while read -r line; do
+git diff "$relative" --name-only | sed -e '/^pom.xml/d' -e '/^etc/d' -e '/^docs/d' -e 's/modules\/\([^/]*\)\/.*/\1/' | sort -u | while read -r line; do
     echo "installing $line"
     oc_path="org/opencastproject/opencast-$line/$version/opencast-$line-$version.jar"
     from_path="$HOME/.m2/repository/$oc_path"
