@@ -1,3 +1,5 @@
+#!/bin/sh
+
 for i in $(seq 1 10); do
   cp series.template.xml series.xml
   sed -i -e "s/TITLE/title $i/g" series.xml

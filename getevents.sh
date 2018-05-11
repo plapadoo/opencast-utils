@@ -1,3 +1,5 @@
+#!/bin/sh
+
 curl \
   --verbose \
   --user admin:opencast \
