@@ -1,1 +1,13 @@
-curl -i -s -f --digest -u opencast_system_account:CHANGE_ME --request POST -H "X-Requested-Auth: Digest" --data state=idle 'http://localhost:8080/capture-admin/agents/test'
+#!/bin/env bash
+
+set -ue
+
+curl \
+  --include \
+  --fail \
+  --digest \
+  --user opencast_system_account:CHANGE_ME \
+  --request POST \
+  --header "X-Requested-Auth: Digest" \
+  --data state=idle \
+  'http://localhost:8080/capture-admin/agents/test'
