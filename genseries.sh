@@ -4,6 +4,13 @@ for i in $(seq 1 10); do
     sed -i -e "s/SUBJECT/subject $i/g" series.xml
     sed -i -e "s/DESCRIPTION/descriotion $i/g" series.xml
     sed -i -e "s/PUBLISHER/publisher $i/g" series.xml
-    curl -f -i --digest -u opencast_system_account:CHANGE_ME -H "X-Requested-Auth: Digest" localhost:8080/series -F series="<series.xml"
+    curl \
+				--fail \
+				--include \
+				--digest \
+				--user opencast_system_account:CHANGE_ME \
+				--header "X-Requested-Auth: Digest" \
+				--form series="<series.xml" \
+				localhost:8080/series
 done
 rm series.xml
