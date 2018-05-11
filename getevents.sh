@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -ue
+
 curl \
   --verbose \
   --user admin:opencast \
