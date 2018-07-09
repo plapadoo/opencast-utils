@@ -2,6 +2,16 @@
 
 set -ue
 
+if ! [ -x "$(command -v telnet)" ]; then
+  echo 'Error: telnet is not installed.' >&2
+  exit 1
+fi
+
+if ! [ -x "$(command -v curl)" ]; then
+  echo 'Error: curl is not installed.' >&2
+  exit 1
+fi
+
 for i in $(seq 1 10); do
   echo "event $i"
   curl \
