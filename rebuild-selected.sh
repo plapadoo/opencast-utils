@@ -27,7 +27,7 @@ shift
 
 modules=$(git diff --name-only "$relative" | sed -e '/^NOTICES/d' -e '/^pom.xml/d' -e '/^assemblies/d' -e '/^etc/d' -e '/^docs/d' -e 's/modules\/\([^/]*\)\/.*/modules\/\1/' | sort -u | paste -s -d, -)
 
-echo "rebuilding $modules via maven"
+echo "rebuilding $modules via maven: $@"
 mvn install -pl "$modules" "$@"
 
 echo "installing"
