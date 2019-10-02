@@ -15,6 +15,6 @@ for i in $(seq 1 10); do
     --user opencast_system_account:CHANGE_ME \
     --header "X-Requested-Auth: Digest" \
     --form series="<series.xml" \
-    localhost:8080/series
+    http://localhost:8080/series
 done
 rm series.xml
